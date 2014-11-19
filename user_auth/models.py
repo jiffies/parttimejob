@@ -2,6 +2,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
+from django.db.models.signals import post_delete
 import os.path
 
 # Create your models here.
@@ -40,4 +41,23 @@ class Corporation_profile(models.Model):
     business_license = models.CharField(max_length=50,blank=True)#营业执照编号
     business_license_image = models.ImageField(upload_to='business_license',blank=True)
 
-    
+import os
+import os.path
+from django.conf import settings
+#need refactor
+def delete_file(sender,**kwargs):
+    instance = kwargs['instance']
+    if sender is User_extra:
+        try:
+            os.remove(os.path.join(settings.BASE_DIR,instance.identity_card_image.path))
+        except:
+            pass
+    elif sender is Corporation_profile:
+        try:
+            os.remove(os.path.join(settings.BASE_DIR,instance.business_license_image.path))
+        except:
+            pass
+
+
+post_delete.connect(delete_file,User_extra)#,attr='identity_card_image')
+post_delete.connect(delete_file,sender=Corporation_profile)
