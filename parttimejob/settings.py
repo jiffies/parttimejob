@@ -37,6 +37,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'user_auth',
+    'rest_framework',
+    'rest_framework.authtoken',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -70,7 +72,8 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+#LANGUAGE_CODE = 'zh_cn'
+LANGUAGE_CODE = 'en_us'
 
 TIME_ZONE = 'Asia/Shanghai'
 
@@ -87,3 +90,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/upload/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'upload')
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    )
+}

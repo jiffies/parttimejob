@@ -47,9 +47,7 @@ from django.conf import settings
 from functools import partial
 #need refactor
 def delete_file(attrname,sender,**kwargs):
-    print "##########~~~~~~~~~~~~~~~~~"
     instance = kwargs['instance']
-    print getattr(instance,attrname).path
     try:
         os.remove(os.path.join(settings.BASE_DIR,getattr(instance,attrname).path))
     except:
